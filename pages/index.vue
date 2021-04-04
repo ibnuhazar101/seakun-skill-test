@@ -13,8 +13,14 @@
           </div>
 
           <form>
-            <select size="1" name="sort">
-              <option value="" disabled selected hidden>Sort</option>
+            <select
+              size="1"
+              name="sort"
+              id="sort-option"
+              v-model="selectedSort"
+              @change="sortOption()"
+            >
+              <option value="" disabled>Sort</option>
               <option value="ascending">ascending</option>
               <option value="descending">descending</option>
             </select>
@@ -36,19 +42,52 @@ import axios from "axios";
 export default {
   data() {
     return {
+      selectedSort: "",
+      ascending: false,
+      descending: false,
       dataOrder: []
     };
   },
-  beforeMount() {
+  watch: {
+    selectedSort() {
+      this.getDataOrder();
+    }
+  },
+  mounted() {
     this.getDataOrder();
   },
   methods: {
+    sortOption() {
+      if (this.selectedSort === "ascending") {
+        this.ascending = true;
+        this.descending = false;
+      } else if (this.selectedSort === "descending") {
+        this.ascending = false;
+        this.descending = true;
+      } else {
+        this.ascending = false;
+        this.descending = false;
+      }
+    },
     getDataOrder() {
       axios
         .get("http://demo2687090.mockable.io/order")
         .then(res => {
-          this.dataOrder = res.data;
-          console.log(res.data);
+          const dateToNumber = function(value) {
+            const newNum = value.slice(0, 10).replace(/-/g, "");
+            return newNum;
+          };
+          if (this.ascending) {
+            this.dataOrder = res.data.sort(
+              (a, b) => dateToNumber(a.createdAt) - dateToNumber(b.createdAt)
+            );
+          } else if (this.descending) {
+            this.dataOrder = res.data.sort(
+              (a, b) => dateToNumber(b.createdAt) - dateToNumber(a.createdAt)
+            );
+          } else {
+            this.dataOrder = res.data;
+          }
         })
         .catch(err => {
           console.log(err);

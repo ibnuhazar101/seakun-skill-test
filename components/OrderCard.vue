@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="packet-price">
-            <h2>Rp {{ order.payment.paymentTotal }}</h2>
+            <h2>Rp {{ setCurrency(order.payment.paymentTotal) }}</h2>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="packet-price">
-                <h2>Rp {{ order.payment.paymentTotal }}</h2>
+                <h2>Rp {{ setCurrency(order.payment.paymentTotal) }}</h2>
               </div>
             </div>
           </div>
@@ -101,13 +101,13 @@ export default {
     order: Object
   },
   methods: {
+    setCurrency(harga) {
+      return harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
     dateToString(value) {
       const oldDate = value.slice(0, 10);
       const newDate = new Date(oldDate).toDateString();
       return newDate.slice(3, 15);
-    },
-    close() {
-      this.$emit("close");
     },
     showModal() {
       this.isModalVisible = true;
@@ -125,9 +125,9 @@ export default {
 .order-card {
   background-color: white;
   margin-bottom: 2rem;
-  border: 2px solid teal;
+  border: 1px solid teal;
   cursor: pointer;
-  /* border-radius: 5px; */
+  border-radius: 10px;
 }
 
 .order-card p,
@@ -140,7 +140,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  border-bottom: 2px solid teal;
+  border-bottom: 1px solid teal;
 }
 
 .card-body {
@@ -161,7 +161,7 @@ export default {
   display: flex;
   width: 50%;
   padding: 0 1rem;
-  border-left: 2px solid teal;
+  border-left: 1px solid teal;
 }
 
 .packet-detail {
@@ -204,7 +204,7 @@ export default {
 .order-detail-card {
   background-color: white;
   margin-bottom: 2rem;
-  border: 2px solid teal;
+  border: 1px solid teal;
 }
 
 .payment-info {
@@ -212,7 +212,7 @@ export default {
   margin-bottom: 2rem;
   display: flex;
   padding: 1.5rem 1rem;
-  border: 2px solid teal;
+  border: 1px solid teal;
 }
 
 .payment-info h4 {
