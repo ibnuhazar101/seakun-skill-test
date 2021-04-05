@@ -43,7 +43,7 @@
 
         <nav class="pagination" aria-label="Page navigation example">
           <ul class="page-list">
-            <li class="page-item">
+            <li class="page-item" @click="currentPage(page)">
               <a
                 type="button"
                 v-if="page > 1"
@@ -53,18 +53,21 @@
                 Previous
               </a>
             </li>
-            <li class="page-item">
+            <li
+              v-for="pageNumber in pages"
+              :key="pageNumber.id"
+              class="page-item"
+              @click="(page = pageNumber), openPage(page), currentPage(page)"
+            >
               <a
                 type="button"
-                class="page-link"
-                v-for="pageNumber in pages"
-                :key="pageNumber.id"
-                @click="(page = pageNumber), openPage(page)"
+                class="page-link current-link"
+                v-bind:class="{ active: currentPages.includes(pageNumber) }"
               >
                 {{ pageNumber }}
               </a>
             </li>
-            <li class="page-item">
+            <li class="page-item" @click="currentPage(page)">
               <a
                 type="button"
                 v-if="page < pages.length"
@@ -96,6 +99,7 @@ export default {
       page: 1,
       perPage: 5,
       totalPage: "",
+      currentPages: [1],
       pages: []
     };
   },
@@ -106,6 +110,7 @@ export default {
     },
     page() {
       this.getDataOrder();
+      this.currentPage(this.page);
     },
     totalPage() {
       this.pagination();
@@ -201,6 +206,11 @@ export default {
     },
     openPage(page) {
       this.$router.push(`/?page=${page}`);
+    },
+    currentPage(page) {
+      document.querySelector(".current-link").classList.remove("active");
+      this.currentPages.splice(0, 1);
+      this.currentPages.push(page);
     }
   }
 };
@@ -299,5 +309,9 @@ a.page-link {
   font-size: 20px;
   color: #4aae9b;
   font-weight: 500;
+}
+
+.active {
+  background-color: #c9f1eb;
 }
 </style>
