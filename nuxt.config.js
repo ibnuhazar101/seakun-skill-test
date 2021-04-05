@@ -1,5 +1,5 @@
 export default {
-  target: "static",
+  target: "spa",
   router: {
     base: "/seakun-skill-test/"
   },
