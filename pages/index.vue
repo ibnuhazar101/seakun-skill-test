@@ -59,7 +59,7 @@
                 class="page-link"
                 v-for="pageNumber in pages"
                 :key="pageNumber.id"
-                @click="page = pageNumber"
+                @click="(page = pageNumber), openPage(page)"
               >
                 {{ pageNumber }}
               </a>
@@ -95,6 +95,7 @@ export default {
       dataOrder: [],
       page: 1,
       perPage: 5,
+      totalPage: "",
       pages: []
     };
   },
@@ -104,60 +105,46 @@ export default {
     },
     page() {
       this.getDataOrder();
+    },
+    totalPage() {
+      this.pagination();
     }
   },
   mounted() {
     this.getDataOrder();
-    this.pagination();
   },
   methods: {
     getResults() {
       this.page = 1;
       this.getDataOrder();
     },
-    pagination() {
-      axios
-        .get("https://demo2687090.mockable.io/order")
-        .then(res => {
-          let totalPage = res.data.length / this.perPage + 1;
-          for (let i = 1; i < totalPage; i++) {
-            this.pages.push(i);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     sortOption() {
+      this.page = 1;
       if (this.selectedSort === "ascending") {
         this.ascending = true;
         this.descending = false;
-        this.page = 1;
       } else if (this.selectedSort === "descending") {
         this.ascending = false;
         this.descending = true;
-        this.page = 1;
       } else {
         this.ascending = false;
         this.descending = false;
-        this.page = 1;
       }
     },
     getDataOrder() {
+      this.openPage(this.page);
+      let from = this.page * this.perPage - this.perPage;
+      let to = this.page * this.perPage;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
       axios
         .get("https://demo2687090.mockable.io/order")
         .then(res => {
-          const dateToNumber = function(value) {
-            const newNum = value.slice(0, 10).replace(/-/g, "");
-            return newNum;
-          };
-
           this.dataOrder = res.data;
 
           if (this.searchKey.length > 0) {
             let searchLower = this.searchKey.toLowerCase();
-            let listOrder = this.dataOrder;
-            let filtered = listOrder.filter(order => {
+            this.dataOrder = this.dataOrder.filter(order => {
               if (order.orderId.toLowerCase().includes(searchLower)) {
                 return true;
               }
@@ -169,16 +156,13 @@ export default {
               ) {
                 return true;
               }
-
-              let from = this.page * this.perPage - this.perPage;
-              let to = this.page * this.perPage;
-
-              listOrder = listOrder.slice(from, to);
-              window.scrollTo({ top: 0, behavior: "smooth" });
             });
-
-            this.dataOrder = filtered;
           }
+
+          const dateToNumber = function(value) {
+            const newNum = value.slice(0, 10).replace(/-/g, "");
+            return newNum;
+          };
 
           if (this.ascending) {
             this.dataOrder = this.dataOrder.sort(
@@ -192,15 +176,29 @@ export default {
             this.dataOrder = this.dataOrder;
           }
 
-          let from = this.page * this.perPage - this.perPage;
-          let to = this.page * this.perPage;
-
+          this.totalPage = this.dataOrder.length / this.perPage + 1;
           this.dataOrder = this.dataOrder.slice(from, to);
-          window.scrollTo({ top: 0, behavior: "smooth" });
         })
         .catch(err => {
           console.log(err);
         });
+
+      if (
+        document.getElementsByClassName("page-link").textContent === this.page
+      ) {
+        document
+          .getElementsByClassName("page-link")
+          .classList.add("active-page");
+      }
+    },
+    pagination() {
+      this.pages.length = 0;
+      for (let i = 1; i < this.totalPage; i++) {
+        this.pages.push(i);
+      }
+    },
+    openPage(page) {
+      this.$router.push(`/?page=${page}`);
     }
   }
 };
@@ -249,6 +247,7 @@ input.search-btn {
   padding: 0.5rem;
   border: 1px solid #4aae9b;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .sort {
