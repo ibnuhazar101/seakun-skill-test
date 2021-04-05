@@ -117,7 +117,7 @@ export default {
     },
     pagination() {
       axios
-        .get("http://demo2687090.mockable.io/order")
+        .get("https://demo2687090.mockable.io/order")
         .then(res => {
           let totalPage = res.data.length / this.perPage + 1;
           for (let i = 1; i < totalPage; i++) {
@@ -145,7 +145,7 @@ export default {
     },
     getDataOrder() {
       axios
-        .get("http://demo2687090.mockable.io/order")
+        .get("https://demo2687090.mockable.io/order")
         .then(res => {
           const dateToNumber = function(value) {
             const newNum = value.slice(0, 10).replace(/-/g, "");
