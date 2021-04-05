@@ -101,6 +101,7 @@ export default {
   },
   watch: {
     selectedSort() {
+      this.sortOption();
       this.getDataOrder();
     },
     page() {
@@ -116,6 +117,7 @@ export default {
   methods: {
     getResults() {
       this.page = 1;
+      this.selectedSort = "unsort";
       this.getDataOrder();
     },
     sortOption() {
