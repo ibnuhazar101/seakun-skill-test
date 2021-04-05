@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div v-show="isModalVisible" @close="closeModal" class="modal-detail">
+    <div v-show="isModalVisible" class="modal-detail">
       <div>
         <h1>Order Detail</h1>
         <div class="order-detail-card">
@@ -190,7 +190,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70%;
-  background-color: #bfe2dc;
+  background-color: #e3f5f2;
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
@@ -229,7 +229,7 @@ export default {
   padding: 0.5rem 2rem;
   background: #4aae9b;
   border: 1px solid #4aae9b;
-  border-radius: 2px;
+  border-radius: 5px;
   cursor: pointer;
 }
 </style>

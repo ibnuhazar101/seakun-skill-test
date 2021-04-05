@@ -2,7 +2,7 @@
   <div class="sidebar-box">
     <ul>
       <li>
-        <a href="/"><h3>Order List</h3></a>
+        <a><h3>Order List</h3></a>
       </li>
     </ul>
   </div>
