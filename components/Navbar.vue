@@ -2,7 +2,7 @@
   <div class="navbar">
     <ul>
       <li>
-        <a href="/"><h3>Seakun.id</h3></a>
+        <a href="/seakun-skill-test/"><h3>Seakun.id</h3></a>
       </li>
     </ul>
   </div>
