@@ -1,4 +1,8 @@
 export default {
+  target: "static",
+  router: {
+    base: "/seakun-skill-test/"
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "seakun-skill-test",
