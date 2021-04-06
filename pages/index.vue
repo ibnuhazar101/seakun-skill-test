@@ -140,8 +140,6 @@ export default {
     },
     getDataOrder() {
       this.openPage(this.page);
-      let from = this.page * this.perPage - this.perPage;
-      let to = this.page * this.perPage;
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       axios
@@ -184,19 +182,13 @@ export default {
           }
 
           this.totalPage = this.dataOrder.length / this.perPage + 1;
+          let from = this.page * this.perPage - this.perPage;
+          let to = this.page * this.perPage;
           this.dataOrder = this.dataOrder.slice(from, to);
         })
         .catch(err => {
           console.log(err);
         });
-
-      if (
-        document.getElementsByClassName("page-link").textContent === this.page
-      ) {
-        document
-          .getElementsByClassName("page-link")
-          .classList.add("active-page");
-      }
     },
     pagination() {
       this.pages.length = 0;
