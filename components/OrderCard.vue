@@ -133,7 +133,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .order-card {
   background-color: white;
   margin-bottom: 2rem;
