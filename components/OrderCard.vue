@@ -56,7 +56,7 @@
                 </div>
                 <div class="packet-desc">
                   <h4>{{ order.provider }}</h4>
-                  <h4>{{ order.paket }}</h4>
+                  <h4>{{ order.packet }}</h4>
                   <h4>{{ dateToString(order.expired) }}</h4>
                 </div>
               </div>
@@ -78,7 +78,7 @@
             <h4>: {{ order.voucherCode }}</h4>
             <h4>: {{ order.payment.status }}</h4>
             <h4>: {{ dateToString(order.payment.paymentDate) }}</h4>
-            <h4>: {{ order.payment.name }}</h4>
+            <h4>: {{ order.payment.bank }}</h4>
           </div>
         </div>
 
