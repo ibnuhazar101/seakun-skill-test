@@ -21,12 +21,12 @@
             </div>
             <div class="packet-desc">
               <h4>{{ order.provider }}</h4>
-              <h4>{{ order.paket }}</h4>
+              <h4>{{ order.packet }}</h4>
               <h4>{{ dateToString(order.expired) }}</h4>
             </div>
           </div>
           <div class="packet-price">
-            <h2>Rp {{ setCurrency(order.payment.paymentTotal) }}</h2>
+            <h2>{{ setCurrency(order.payment.paymentTotal) }}</h2>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="packet-price">
-                <h2>Rp {{ setCurrency(order.payment.paymentTotal) }}</h2>
+                <h2>{{ setCurrency(order.payment.paymentTotal) }}</h2>
               </div>
             </div>
           </div>
@@ -100,13 +100,25 @@ export default {
   props: {
     order: Object
   },
+  created() {
+    console.log("created");
+  },
+  mounted() {
+    console.log("mounted");
+  },
+  updated() {
+    console.log("updated");
+  },
+  destroyed() {
+    console.log("destroyed");
+  },
   methods: {
     setCurrency(harga) {
-      return harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      const price = harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return `Rp${price}`;
     },
     dateToString(value) {
-      const oldDate = value.slice(0, 10);
-      const newDate = new Date(oldDate).toDateString();
+      const newDate = new Date(value).toDateString();
       return newDate.slice(3, 15);
     },
     showModal() {

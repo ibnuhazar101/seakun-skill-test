@@ -18,7 +18,7 @@
               class="search-btn"
               type="submit"
               value="Submit"
-              @click="getResults()"
+              @click="getResults"
             />
           </div>
 
@@ -27,7 +27,7 @@
               size="1"
               class="sort"
               v-model="selectedSort"
-              @change="sortOption()"
+              @change="sortOption"
             >
               <option value="" disabled hidden>Sort order list</option>
               <option value="unsort">unsort</option>
@@ -62,7 +62,9 @@
               <a
                 type="button"
                 class="page-link current-link"
-                v-bind:class="{ active: currentPages.includes(pageNumber) }"
+                v-bind:class="[
+                  currentPages.includes(pageNumber) ? 'active' : ''
+                ]"
               >
                 {{ pageNumber }}
               </a>
@@ -143,7 +145,7 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       axios
-        .get("https://demo2687090.mockable.io/order")
+        .get("https://demo3267455.mockable.io/order")
         .then(res => {
           this.dataOrder = res.data;
 
@@ -191,7 +193,7 @@ export default {
         });
     },
     pagination() {
-      this.pages.length = 0;
+      this.pages = [];
       for (let i = 1; i < this.totalPage; i++) {
         this.pages.push(i);
       }
@@ -200,8 +202,7 @@ export default {
       this.$router.push(`/?page=${page}`);
     },
     currentPage(page) {
-      document.querySelector(".current-link").classList.remove("active");
-      this.currentPages.splice(0, 1);
+      this.currentPages = [];
       this.currentPages.push(page);
     }
   }
